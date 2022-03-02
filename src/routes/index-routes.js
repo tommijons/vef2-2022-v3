@@ -102,7 +102,7 @@ indexRouter.post(
 );
 
 indexRouter.get('/events', catchErrors(listEvents));
-indexRouter.get('/events/:eventId', catchErrors(listEvent));
+indexRouter.get('/events/:id', catchErrors(listEvent));
 indexRouter.post('/events',
   requireAuthentication,
   validationCheck,

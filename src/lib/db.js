@@ -190,9 +190,14 @@ export async function listEvent(req, res) {
   WHERE id = $1
 `;
   const params = [req.params.id]
-  const events = await query(eventQuery, params);
+  try {
+    const events = await query(eventQuery, params);
+    return res.json(events.rows);
+  } catch (e) {
+    console.error('viðburður fannst ekki', e);
+  }
+  return res.status(404).json({ error: 'no event found' })
 
-  return res.json(events.rows);
 }
 
 export async function createRegisteration(req, res) {

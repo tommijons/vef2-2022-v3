@@ -6,7 +6,7 @@ Búa þarf til viðburðakerfi sem hefur admin viðmót þar sem hægt er að b�
 ```
 npm install
 createdb vef2-2022-v3
-cp .env_example .env # Stilla database url
+cp .env.test .env # Stilla database url
 npm run setup
 npm run dev
 ```

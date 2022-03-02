@@ -114,6 +114,7 @@ indexRouter.delete('/events/:id',
 indexRouter.patch('events/:id', catchErrors(updateEvent));
 
 indexRouter.post('/registrations',
+  usernameValidator,
   validationCheck,
   requireAuthentication,
   catchErrors(createRegisteration));

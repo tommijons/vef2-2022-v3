@@ -81,7 +81,7 @@ export async function findByUsername(username) {
       return result.rows[0];
     }
   } catch (e) {
-    logger.error('unable to query user by username');
+    console.error('unable to query user by username');
     return null;
   }
 

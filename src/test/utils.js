@@ -1,12 +1,6 @@
 import crypto from 'crypto';
 import dotenv from 'dotenv';
 import fetch from 'node-fetch';
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
-
-
-
-const basePath = dirname(fileURLToPath(import.meta.url));
 
 dotenv.config();
 
@@ -86,7 +80,7 @@ export async function createRandomUserAndReturnWithToken() {
   const username = `user${rnd}`;
   const password = '1234567890';
 
-  const data = { name, username, email };
+  const data = { name, username, password };
   const { result } = await postAndParse('/users/register', data);
   const token = await loginAndReturnToken({ username, password });
 

@@ -37,7 +37,6 @@ app.use((req, res, next) => {
   return next();
 });
 
-//app.use('/admin', adminRouter);
 app.use('/', indexRouter);
 
 /** Middleware sem sér um 404 villur. */

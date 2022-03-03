@@ -2,7 +2,7 @@ import { readFile } from 'fs/promises';
 import pg from 'pg';
 import xss from 'xss';
 import { slugify } from './slugify.js';
-import { isString } from './validation.js';
+
 const SCHEMA_FILE = './sql/schema.sql';
 const DROP_SCHEMA_FILE = './sql/drop.sql';
 
@@ -25,18 +25,6 @@ pool.on('error', (err) => {
   process.exit(-1);
 });
 
-export async function createSchema(schemaFile = SCHEMA_FILE) {
-  const data = await readFile(schemaFile);
-
-  return query(data.toString('utf-8'));
-}
-
-export async function dropSchema(dropFile = DROP_SCHEMA_FILE) {
-  const data = await readFile(dropFile);
-
-  return query(data.toString('utf-8'));
-}
-
 export async function query(q, values = []) {
   let client;
   try {
@@ -58,6 +46,23 @@ export async function query(q, values = []) {
     client.release();
   }
 }
+
+export async function createSchema(schemaFile = SCHEMA_FILE) {
+  const data = await readFile(schemaFile);
+
+  return query(data.toString('utf-8'));
+}
+
+export async function dropSchema(dropFile = DROP_SCHEMA_FILE) {
+  const data = await readFile(dropFile);
+
+  return query(data.toString('utf-8'));
+}
+
+export function isString(s) {
+  return typeof s === 'string';
+}
+
 
 export async function singleQuery(_query, values = []) {
   const result = await query(_query, values);
@@ -139,7 +144,7 @@ export async function deleteEvent(req, res) {
 
     return res.status(200).json({});
   } catch (e) {
-    console.error(`gat ekki eytt viðburði`, e);
+    console.error('gat ekki eytt viðburði', e);
   }
   return res.status(500).json(null);
 }
@@ -197,7 +202,6 @@ export async function listEvent(req, res) {
     console.error('viðburður fannst ekki', e);
   }
   return res.status(404).json({ error: 'no event found' })
-
 }
 
 export async function createRegisteration(req, res) {
@@ -237,7 +241,7 @@ export async function deleteRegisteration(req, res) {
 
     return res.status(200).json({});
   } catch (e) {
-    console.error(`gat ekki eytt skráningu`, e);
+    console.error('gat ekki eytt skráningu', e);
   }
   return res.status(500).json(null);
 }

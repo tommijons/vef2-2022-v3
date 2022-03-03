@@ -22,7 +22,8 @@ export function validationCheck(req, res, next) {
 
     // We loose the actual error object of LoginError, match with error message
     // TODO brittle, better way?
-    const loginError = validation.errors.find((error) => error.msg === 'username or password incorrect');
+    const loginError = validation.errors.find((error) =>
+      error.msg === 'username or password incorrect');
 
     let status = 400;
 

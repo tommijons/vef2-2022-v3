@@ -3,7 +3,6 @@ import { LoginError } from './catch-errors.js';
 import { resourceExists } from './helpers.js';
 import { comparePasswords, findByUsername } from './users.js';
 
-
 // Endurnýtum mjög líka validation
 
 export const pagingQuerystringValidator = [
@@ -83,7 +82,7 @@ export const usernameAndPaswordValidValidator = body('username')
       valid = await comparePasswords(password, user.password);
     } catch (e) {
       // Here we would track login attempts for monitoring purposes
-      logger.info(`invalid login attempt for ${username}`);
+      console.info(`invalid login attempt for ${username}`);
     }
 
     if (!valid) {

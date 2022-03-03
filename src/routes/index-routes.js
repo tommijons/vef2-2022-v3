@@ -42,7 +42,7 @@ async function loginRoute(req, res) {
   const user = await findByUsername(username);
 
   if (!user) {
-    logger.error('Unable to find user', username);
+    console.error('Unable to find user', username);
     return res.status(500).json({});
   }
 

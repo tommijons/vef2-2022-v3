@@ -11,18 +11,22 @@ import {
   updateEvent
 } from '../lib/db.js';
 import { validationCheck } from '../lib/helpers.js';
-import { jwtOptions, requireAdmin, requireAuthentication, tokenOptions } from '../lib/passport.js';
+import {
+  jwtOptions,
+  requireAdmin,
+  requireAuthentication,
+  tokenOptions
+} from '../lib/passport.js';
 import {
   createUser, findById, findByUsername, getUser, listUsers
 } from '../lib/users.js';
 import {
   passwordValidator,
+  sanitizationMiddleware,
   usernameAndPaswordValidValidator,
   usernameDoesNotExistValidator,
   usernameValidator
 } from '../lib/validation.js';
-
-
 
 export const indexRouter = express.Router();
 
@@ -106,16 +110,14 @@ indexRouter.get('/events/:id', catchErrors(listEvent));
 indexRouter.post('/events',
   requireAuthentication,
   validationCheck,
-  usernameValidator,
+  sanitizationMiddleware('description'),
   catchErrors(createEvent));
 indexRouter.delete('/events/:id',
   requireAuthentication,
   catchErrors(deleteEvent));
-indexRouter.patch('events/:id', catchErrors(updateEvent));
+indexRouter.patch('events/:id', requireAuthentication, catchErrors(updateEvent));
 
 indexRouter.post('/registrations',
-  usernameValidator,
-  validationCheck,
   requireAuthentication,
   catchErrors(createRegisteration));
 indexRouter.delete('/registrations/:id',

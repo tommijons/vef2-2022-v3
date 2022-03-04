@@ -13,8 +13,7 @@
     "coverage": "NODE_ENV=test NODE_OPTIONS='--experimental-vm-modules' dotenv -e .env.test -- jest --coverage --collectCoverageFrom=\"./src/**/*.js\"",
     "prettier": "prettier --write .",
     "lint": "concurrently npm:lint:*",
-    "lint:eslint": "eslint ./src/**/*.js",
-    "lint:stylelint": "stylelint ./public/styles.css"
+    "lint:eslint": "eslint ./src/**/*.js"
   },
   "keywords": [],
   "author": "",

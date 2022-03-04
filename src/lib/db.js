@@ -107,6 +107,32 @@ export async function conditionalUpdate(table, id, fields, values) {
   return result;
 }
 
+export async function listEvents(req, res) {
+
+  const events = await query('SELECT id, name, slug, description, created, updated FROM events;');
+
+  return res.json(events.rows)
+}
+
+
+export async function listEvent(req, res) {
+  const eventQuery = `
+  SELECT
+    id, name, slug, description, created, updated
+  FROM
+    events
+  WHERE id = $1
+`;
+  const params = [req.params.id]
+  try {
+    const events = await query(eventQuery, params);
+    return res.json(events.rows);
+  } catch (e) {
+    console.error('viðburður fannst ekki', e);
+  }
+  return res.status(404).json({ error: 'no event found' })
+}
+
 export async function createEvent(req, res) {
   const {
     name, description,
@@ -176,32 +202,6 @@ export async function updateEvent(req, res) {
   const result = await conditionalUpdate('event', id, fields, values);
 
   return res.status(201).json(result.rows[0]);
-
-}
-
-export async function listEvents(req, res) {
-
-  const events = await query('SELECT id, name, slug, description, created, updated FROM events;');
-
-  return res.json(events.rows)
-}
-
-export async function listEvent(req, res) {
-  const eventQuery = `
-  SELECT
-    id, name, slug, description, created, updated
-  FROM
-    events
-  WHERE id = $1
-`;
-  const params = [req.params.id]
-  try {
-    const events = await query(eventQuery, params);
-    return res.json(events.rows);
-  } catch (e) {
-    console.error('viðburður fannst ekki', e);
-  }
-  return res.status(404).json({ error: 'no event found' })
 }
 
 export async function createRegisteration(req, res) {
@@ -218,7 +218,7 @@ export async function createRegisteration(req, res) {
         ($1, $2, $3)
       RETURNING id, name, comment, event;
     `,
-      [xss(name), xss(comment), event]
+      [xss(name), xss(comment), xss(event)]
     );
     return res.status(201).json(registeration);
   } catch (e) {
